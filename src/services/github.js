@@ -25,18 +25,22 @@ export const fetchRepoDetails = async (url) => {
 
     const readme = readmeRes?.data || '';
     
-    // Extract a brief summary from README (first non-empty paragraph after header)
-    const summaryMatch = readme.split('\n')
+    // Extract a brief summary from README or use a meaningful fallback
+    let summary = readme.split('\n')
       .filter(line => line.trim() !== '' && !line.startsWith('#'))
       .slice(0, 2)
       .join(' ');
-
+    
     // Detect project type
     let projectType = 'Engineering Project';
     if (readme.toLowerCase().includes('cli')) projectType = 'CLI Tool';
     else if (readme.toLowerCase().includes('library') || readme.toLowerCase().includes('sdk')) projectType = 'Developer Library';
     else if (readme.toLowerCase().includes('api')) projectType = 'Backend API Service';
     else if (readme.toLowerCase().includes('app') || readme.toLowerCase().includes('website')) projectType = 'Web Application';
+
+    if (!summary || summary.length < 10) {
+      summary = `A technical exploration into ${projectType.toLowerCase()} development, focusing on clean code and efficient implementation.`;
+    }
 
     // Extract Features (look for 'Features' section or bullet points)
     const features = readme.split('\n')
@@ -51,7 +55,7 @@ export const fetchRepoDetails = async (url) => {
       .slice(0, 2)
       .map(s => s.trim());
 
-    // Extract Use Cases (look for 'Usage', 'Use Case', 'Examples' or sentences with 'how it helps')
+    // Extract Use Cases
     const useCaseKeywords = ['usage', 'use case', 'examples', 'how it helps', 'get started', 'ideal for'];
     const useCases = readme.split('\n')
       .filter(line => useCaseKeywords.some(key => line.toLowerCase().includes(key)) || line.trim().startsWith('>'))
@@ -62,13 +66,13 @@ export const fetchRepoDetails = async (url) => {
       name: cleanRepo,
       owner,
       readme,
-      summary: summaryMatch.substring(0, 250) + (summaryMatch.length > 250 ? '...' : ''),
-      techStack: packageRes?.data?.dependencies ? Object.keys(packageRes.data.dependencies) : [],
+      summary: summary.substring(0, 250) + (summary.length > 250 ? '...' : ''),
+      techStack: packageRes?.data?.dependencies ? Object.keys(packageRes.data.dependencies) : ['JavaScript', 'GitHub API', 'System Logic'],
       projectType,
-      features: features.length > 0 ? features : ['Clean implementation', 'Modular architecture'],
-      insights: insights.length > 0 ? insights : ['Optimized for developer experience', 'Scalable design patterns'],
-      useCases: useCases.length > 0 ? useCases : ['Automating developer workflows', 'Streamlining project sharing'],
-      recentUpdates: recentUpdates.length > 0 ? recentUpdates : ['Enhanced repository analysis', 'Improved UI/UX']
+      features: features.length > 0 ? features : ['Engineered with modular component architecture', 'Implemented clean coding standards', 'Optimized for developer scalability'],
+      insights: insights.length > 0 ? insights : ['Focuses on project structure and maintainability', 'Leverages modern development patterns'],
+      recentUpdates: recentUpdates.length > 0 ? recentUpdates : [`Initial implementation of ${cleanRepo}`, 'Added core project logic'],
+      useCases: useCases.length > 0 ? useCases : ['Streamlining technical workflows', 'Developing robust engineering solutions']
     };
   } catch (error) {
     console.error('Error fetching repo details:', error);

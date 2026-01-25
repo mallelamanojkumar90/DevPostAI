@@ -41,6 +41,7 @@ const DevPostAI = () => {
 
       // Generate content based on details
       const techStr = details.techStack.join(", ");
+      const coreTech = details.techStack.slice(0, 3).join(", ");
       const name = details.name;
       const type = details.projectType;
       const featureStr = details.features.map(f => `- ${f}`).join('\n');
