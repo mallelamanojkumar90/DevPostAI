@@ -19,6 +19,10 @@ export const fetchRepoDetails = async (url) => {
       axios.get(`https://raw.githubusercontent.com/${owner}/${cleanRepo}/main/package.json`)
     ).catch(() => null);
 
+    // Fetch Recent Commits (GitHub API)
+    const commitsRes = await axios.get(`https://api.github.com/repos/${owner}/${cleanRepo}/commits?per_page=3`).catch(() => null);
+    const recentUpdates = commitsRes?.data?.map(c => c.commit.message) || [];
+
     const readme = readmeRes?.data || '';
     
     // Extract a brief summary from README (first non-empty paragraph after header)
@@ -63,7 +67,8 @@ export const fetchRepoDetails = async (url) => {
       projectType,
       features: features.length > 0 ? features : ['Clean implementation', 'Modular architecture'],
       insights: insights.length > 0 ? insights : ['Optimized for developer experience', 'Scalable design patterns'],
-      useCases: useCases.length > 0 ? useCases : ['Automating developer workflows', 'Streamlining project sharing']
+      useCases: useCases.length > 0 ? useCases : ['Automating developer workflows', 'Streamlining project sharing'],
+      recentUpdates: recentUpdates.length > 0 ? recentUpdates : ['Enhanced repository analysis', 'Improved UI/UX']
     };
   } catch (error) {
     console.error('Error fetching repo details:', error);

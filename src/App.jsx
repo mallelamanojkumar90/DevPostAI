@@ -44,9 +44,10 @@ const DevPostAI = () => {
       const name = details.name;
       const type = details.projectType;
       const featureStr = details.features.map(f => `🚀 ${f}`).join('\n');
+      const updateStr = details.recentUpdates.map(u => `⭐ ${u}`).join('\n');
 
       setResults({
-        linkedin: `🚀 Thrilled to showcase ${name}: A ${type} built with modern engineering!\n\nThis project focuses on providing high-performance solutions with a clean architecture.\n\n✨ Key Engineering Features:\n${featureStr}\n\n🛠️ Technical Stack:\n${techStr || "Modern Software Engineering"}\n\nDeeply integrated and optimized for developer efficiency.\n\nExplore the full implementation:\n🔗 ${repoUrl}\n\n#SoftwareEngineering #TechStack #OpenSource #GitHub #${name.replace(/[^a-zA-Z]/g, "")}`,
+        linkedin: `🚀 Thrilled to showcase ${name}: A ${type} built with modern engineering!\n\nThis project focuses on providing high-performance solutions with a clean architecture.\n\n✨ Key Engineering Features:\n${featureStr}\n\n🛠️ Technical Stack:\n${techStr || "Modern Software Engineering"}\n\n🔄 Recent Project Updates:\n${updateStr}\n\nDeeply integrated and optimized for developer efficiency.\n\nExplore the full implementation:\n🔗 ${repoUrl}\n\n#SoftwareEngineering #TechStack #OpenSource #GitHub #${name.replace(/[^a-zA-Z]/g, "")}`,
         twitter: `${name} 🛠️\n\nA powerful ${type} with a focus on real-world engineering.\n\n🔥 Top Features:\n${details.features.slice(0, 3).map(f => `✅ ${f}`).join('\n')}\n\n🧰 Tech Stack: ${details.techStack.slice(0, 4).join(", ")}\n\nExplore the repo:\n${repoUrl}\n\nDrop a ⭐ for the build!`,
         whatsapp: `Check out ${name}! A ${type} with these key features:\n${details.features.slice(0, 3).map(f => `- ${f}`).join('\n')}\n\n🛠️ Built with: ${details.techStack.slice(0, 3).join(", ")}\n\nRepo: ${repoUrl}`,
       });
