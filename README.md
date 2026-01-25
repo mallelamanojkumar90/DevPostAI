@@ -1,16 +1,57 @@
-# React + Vite
+# DevPostAI – GitHub Repository to Social Media Post Generator 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**DevPostAI** is a premium, AI-powered platform designed for Developer Advocates and Technical Content Strategists. It analyzes GitHub repositories to extract meaningful engineering work and transforms it into authentic, developer-first social media content optimized for LinkedIn, Twitter/X, and WhatsApp.
 
-Currently, two official plugins are available:
+![DevPostAI Logo](https://raw.githubusercontent.com/Manojkumar/DevPostAI/main/public/devpostai_logo.png) (Note: Replace with actual path after hosting)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ key Engineering Features
 
-## React Compiler
+- **Dynamic Repository Analysis**: Scans READMEs and source files to identify project purpose, features, and engineering challenges.
+- **Project Type Detection**: Automatically categorizes repositories as CLI Tools, Web Apps, Libraries, or APIs to tailor post tones.
+- **Deep Technical Extraction**: Pulls actual dependencies and technical keywords to highlight the real tech stack.
+- **Platform-Specific Optimization**: Generates posts with custom formatting (bullet points, emojis, hashtags) tailored for LinkedIn, X, and WhatsApp.
+- **Premium User Experience**: Built with a modern Dark Mode aesthetic, glassmorphism, and smooth Framer Motion animations.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Technical Stack
 
-## Expanding the ESLint configuration
+- **Frontend**: React 19 (Vite)
+- **Styling**: Vanilla CSS (Premium Design System)
+- **Icons**: Lucide React
+- **Animations**: Framer Motion
+- **Data Fetching**: Axios (GitHub API Integration)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🎯 Primary Use Cases
+
+- 💡 **Open Source Maintainers**: Easily share project updates and attract contributors.
+- 💡 **Developer Advocates**: Quickly generate technical highlights for social engagement.
+- 💡 **Individual Builders**: Showcase your portfolio projects with professional, engineering-focused posts.
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v18+)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Manojkumar/DevPostAI.git
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+## 📜 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+Built with ❤️ for the developer community.
