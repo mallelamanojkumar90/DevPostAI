@@ -43,13 +43,13 @@ const DevPostAI = () => {
       const techStr = details.techStack.join(", ");
       const name = details.name;
       const type = details.projectType;
-      const featureStr = details.features.map(f => `🚀 ${f}`).join('\n');
-      const updateStr = details.recentUpdates.map(u => `⭐ ${u}`).join('\n');
+      const featureStr = details.features.map(f => `- ${f}`).join('\n');
+      const updateStr = details.recentUpdates.map(u => `- ${u}`).join('\n');
 
       setResults({
-        linkedin: `🚀 Thrilled to showcase ${name}: A ${type} built with modern engineering!\n\nThis project focuses on providing high-performance solutions with a clean architecture.\n\n✨ Key Engineering Features:\n${featureStr}\n\n🛠️ Technical Stack:\n${techStr || "Modern Software Engineering"}\n\n🔄 Recent Project Updates:\n${updateStr}\n\nDeeply integrated and optimized for developer efficiency.\n\nExplore the full implementation:\n🔗 ${repoUrl}\n\n#SoftwareEngineering #TechStack #OpenSource #GitHub #${name.replace(/[^a-zA-Z]/g, "")}`,
-        twitter: `${name} 🛠️\n\nA powerful ${type} with a focus on real-world engineering.\n\n🔥 Top Features:\n${details.features.slice(0, 3).map(f => `✅ ${f}`).join('\n')}\n\n🧰 Tech Stack: ${details.techStack.slice(0, 4).join(", ")}\n\nExplore the repo:\n${repoUrl}\n\nDrop a ⭐ for the build!`,
-        whatsapp: `Check out ${name}! A ${type} with these key features:\n${details.features.slice(0, 3).map(f => `- ${f}`).join('\n')}\n\n🛠️ Built with: ${details.techStack.slice(0, 3).join(", ")}\n\nRepo: ${repoUrl}`,
+        linkedin: `Engineering Update: Analyzing the architecture of ${name}, a ${type} designed for high-performance and scalability.\n\nCore Engineering Features:\n${featureStr}\n\nTechnical Stack:\n${techStr || "Modern Software Engineering"}\n\nRecent Activity:\n${updateStr}\n\nThis project emphasizes clean code principles and robust implementation details. View the full repository here:\n${repoUrl}\n\n#SoftwareEngineering #SystemArchitecture #OpenSource #${name.replace(/[^a-zA-Z]/g, "")}`,
+        twitter: `Exploring the implementation of ${name}, a ${type} built for performance and maintainability.\n\nKey Features:\n${details.features.slice(0, 2).map(f => `- ${f}`).join('\n')}\n\nStack: ${coreTech}\n\nFull repository and documentation:\n${repoUrl}\n\n#BuildInPublic #SoftwareEngineering`,
+        whatsapp: `Checking out ${name}. It's a ${type} built with ${coreTech}. \n\nKey features include:\n${details.features.slice(0, 2).map(f => `- ${f}`).join('\n')}\n\nRepo link: ${repoUrl}`,
       });
     } catch (err) {
       setError(err.message);
