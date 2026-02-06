@@ -6,12 +6,14 @@
 
 ## ✨ Key Engineering Features
 
-- **Intelligent Repository Analysis**: Real-time extraction of project purpose, engineering features, and technical insights from READMEs and code structures.
-- **Project Type Detection**: Automated categorization (CLI, Web App, Library, API) to ensure tone and context are perfectly aligned with the repository's intent.
-- **Deep Technical Extraction**: Direct parsing of `package.json` and technical keywords to highlight the actual tech stack and engineering hurdles.
-- **Live Commit Integration**: Leverages the GitHub REST API to fetch recent activity, ensuring posts capture the latest project momentum.
-- **Professional Fallback Engine**: Proprietary logic that generates high-quality technical summaries even for repositories with sparse documentation.
-- **Premium Design System**: A state-of-the-art dark mode UI built with glassmorphism, modern typography (Outfit/Inter), and smooth Framer Motion animations.
+- **Deep Repository Analysis**: Parallel fetching of README, package.json, repository metadata, commits, and language breakdown from GitHub API for comprehensive insights.
+- **Intelligent Project Type Detection**: Multi-layered categorization using dependency analysis and README parsing to accurately identify CLI Tools, Web Apps, Libraries, APIs, and more.
+- **Advanced Feature Extraction**: Smart section parsing that extracts key features from dedicated README sections with markdown cleanup and validation.
+- **Enhanced Tech Stack Detection**: Combines package.json dependencies with GitHub's language API, filtering development dependencies for accurate stack representation.
+- **Technical Insights Mining**: Scans for architecture, performance, security, and scalability keywords to extract meaningful engineering insights.
+- **Repository Statistics Integration**: Displays stars, forks, issues, and last updated date to showcase project momentum and community engagement.
+- **Professional Post Generation**: Creates authentic, developer-focused content for LinkedIn, Twitter/X, and WhatsApp with platform-optimized formatting.
+- **Premium Design System**: State-of-the-art dark mode UI with glassmorphism, modern typography (Outfit/Inter), and smooth Framer Motion animations.
 
 ## 🛠️ Technical Stack
 

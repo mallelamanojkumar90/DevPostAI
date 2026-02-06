@@ -39,18 +39,75 @@ const DevPostAI = () => {
         );
       }
 
-      // Generate content based on details
-      const techStr = details.techStack.join(", ");
-      const coreTech = details.techStack.slice(0, 3).join(", ");
+      // Generate professional developer-focused content
+      const techStack = details.techStack.slice(0, 5);
+      const coreTech = details.techStack.slice(0, 3).join(" • ");
       const name = details.name;
       const type = details.projectType;
-      const featureStr = details.features.map(f => `- ${f}`).join('\n');
-      const updateStr = details.recentUpdates.map(u => `- ${u}`).join('\n');
+      const stats = details.stats;
+      
+      // === LINKEDIN POST - Professional Technical Update ===
+      const linkedinFeatures = details.features.slice(0, 3).map(f => `• ${f}`).join('\n');
+      
+      // Add stats if significant
+      let statsLine = '';
+      if (stats.stars > 10 || stats.forks > 5) {
+        statsLine = `\n⭐ ${stats.stars} stars • 🔀 ${stats.forks} forks`;
+      }
+      
+      const linkedinPost = `Just pushed some updates to ${name} — sharing what I learned building this ${type.toLowerCase()}.
+
+📋 Technical Overview:
+${linkedinFeatures}
+
+🔧 Tech Stack:
+${techStack.slice(0, 4).join(' • ')}
+
+💡 Key Learnings:
+${details.insights.slice(0, 2).map(i => `• ${i}`).join('\n')}
+${statsLine}
+
+The codebase is open source — contributions and feedback welcome.
+
+Repository: ${repoUrl}
+
+#SoftwareDevelopment #OpenSource #${techStack[0]?.replace(/[^a-zA-Z]/g, "") || "Engineering"} #DeveloperTools`;
+
+      // === TWITTER/X POST - Concise Technical Update ===
+      const primaryUseCase = details.useCases[0] || details.description || "streamlining development workflows";
+      const twitterFeatures = details.features.slice(0, 2).map(f => `→ ${f}`).join('\n');
+      
+      const twitterPost = `Built ${name} — a ${type.toLowerCase()} for ${primaryUseCase.toLowerCase()}.
+
+Tech stack:
+${coreTech}
+
+Key features:
+${twitterFeatures}
+
+Open source ↓
+${repoUrl}
+
+#coding #opensource #buildinpublic`;
+
+      // === WHATSAPP POST - Casual but Professional ===
+      const whatsappFeatures = details.features.slice(0, 2).map(f => `✓ ${f}`).join('\n');
+      
+      const whatsappPost = `Hey! Wanted to share ${name} — been working on this ${type.toLowerCase()}.
+
+Built with: ${coreTech}
+
+Main features:
+${whatsappFeatures}
+
+${details.description ? `\n${details.description}\n` : ''}Check it out: ${repoUrl}
+
+Let me know what you think!`;
 
       setResults({
-        linkedin: `Engineering Update: Analyzing the architecture of ${name}, a ${type} designed for high-performance and scalability.\n\nCore Engineering Features:\n${featureStr}\n\nTechnical Stack:\n${techStr || "Modern Software Engineering"}\n\nRecent Activity:\n${updateStr}\n\nThis project emphasizes clean code principles and robust implementation details. View the full repository here:\n${repoUrl}\n\n#SoftwareEngineering #SystemArchitecture #OpenSource #${name.replace(/[^a-zA-Z]/g, "")}`,
-        twitter: `Exploring the implementation of ${name}, a ${type} built for performance and maintainability.\n\nKey Features:\n${details.features.slice(0, 2).map(f => `- ${f}`).join('\n')}\n\nStack: ${coreTech}\n\nFull repository and documentation:\n${repoUrl}\n\n#BuildInPublic #SoftwareEngineering`,
-        whatsapp: `Checking out ${name}. It's a ${type} built with ${coreTech}. \n\nKey features include:\n${details.features.slice(0, 2).map(f => `- ${f}`).join('\n')}\n\nRepo link: ${repoUrl}`,
+        linkedin: linkedinPost,
+        twitter: twitterPost,
+        whatsapp: whatsappPost,
       });
     } catch (err) {
       setError(err.message);
