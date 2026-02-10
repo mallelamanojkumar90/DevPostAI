@@ -1,32 +1,45 @@
 import axios from 'axios';
 
+// GitHub API configuration
+const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN;
+
+// Create axios instance with authentication headers
+const githubApi = axios.create({
+  headers: GITHUB_TOKEN ? {
+    'Authorization': `Bearer ${GITHUB_TOKEN}`,
+    'Accept': 'application/vnd.github.v3+json'
+  } : {
+    'Accept': 'application/vnd.github.v3+json'
+  }
+});
+
 export const fetchRepoDetails = async (url) => {
   try {
     // Extract owner and repo from URL
     const match = url.match(/github\.com\/([^/]+)\/([^/]+)/);
     if (!match) throw new Error('Invalid GitHub URL');
-    
+
     const [_, owner, repo] = match;
     const cleanRepo = repo.replace(/\.git$/, '');
-    
+
     // Parallel fetch for better performance
     const [readmeRes, packageRes, repoInfoRes, commitsRes, languagesRes] = await Promise.allSettled([
       // Fetch README (try main and master branches)
       axios.get(`https://raw.githubusercontent.com/${owner}/${cleanRepo}/main/README.md`)
         .catch(() => axios.get(`https://raw.githubusercontent.com/${owner}/${cleanRepo}/master/README.md`)),
-      
+
       // Fetch package.json
       axios.get(`https://raw.githubusercontent.com/${owner}/${cleanRepo}/main/package.json`)
         .catch(() => axios.get(`https://raw.githubusercontent.com/${owner}/${cleanRepo}/master/package.json`)),
-      
-      // Fetch repository metadata from GitHub API
-      axios.get(`https://api.github.com/repos/${owner}/${cleanRepo}`),
-      
-      // Fetch recent commits
-      axios.get(`https://api.github.com/repos/${owner}/${cleanRepo}/commits?per_page=5`),
-      
-      // Fetch language breakdown
-      axios.get(`https://api.github.com/repos/${owner}/${cleanRepo}/languages`)
+
+      // Fetch repository metadata from GitHub API (authenticated)
+      githubApi.get(`https://api.github.com/repos/${owner}/${cleanRepo}`),
+
+      // Fetch recent commits (authenticated)
+      githubApi.get(`https://api.github.com/repos/${owner}/${cleanRepo}/commits?per_page=5`),
+
+      // Fetch language breakdown (authenticated)
+      githubApi.get(`https://api.github.com/repos/${owner}/${cleanRepo}/languages`)
     ]);
 
     const readme = readmeRes.status === 'fulfilled' ? readmeRes.value?.data || '' : '';
@@ -38,7 +51,7 @@ export const fetchRepoDetails = async (url) => {
     // === ENHANCED PROJECT TYPE DETECTION ===
     let projectType = 'Software Project';
     const readmeLower = readme.toLowerCase();
-    
+
     if (packageJson) {
       // Detect based on dependencies
       const deps = { ...packageJson.dependencies, ...packageJson.devDependencies };
@@ -47,7 +60,7 @@ export const fetchRepoDetails = async (url) => {
       else if (deps['commander'] || deps['yargs']) projectType = 'CLI Tool';
       else if (packageJson.main && !deps['react']) projectType = 'JavaScript Library';
     }
-    
+
     // Override with README hints
     if (readmeLower.includes('cli tool') || readmeLower.includes('command-line')) projectType = 'CLI Tool';
     else if (readmeLower.includes('rest api') || readmeLower.includes('graphql')) projectType = 'API Service';
@@ -73,7 +86,7 @@ export const fetchRepoDetails = async (url) => {
     // === EXTRACT FEATURES (ENHANCED) ===
     const featureSection = readme.match(/##\s*(?:Features|Key Features|Highlights)([\s\S]*?)(?=##|$)/i);
     let features = [];
-    
+
     if (featureSection) {
       features = featureSection[1]
         .split('\n')
@@ -82,7 +95,7 @@ export const fetchRepoDetails = async (url) => {
         .filter(f => f.length > 10 && f.length < 150)
         .slice(0, 5);
     }
-    
+
     if (features.length === 0) {
       features = readme.split('\n')
         .filter(line => line.trim().match(/^[-*•]\s+\*\*/))
@@ -92,16 +105,16 @@ export const fetchRepoDetails = async (url) => {
 
     // === TECH STACK DETECTION (ENHANCED) ===
     let techStack = [];
-    
+
     if (packageJson?.dependencies) {
       const deps = Object.keys(packageJson.dependencies);
-      techStack = deps.filter(dep => 
-        !dep.startsWith('@types') && 
-        !dep.includes('eslint') && 
+      techStack = deps.filter(dep =>
+        !dep.startsWith('@types') &&
+        !dep.includes('eslint') &&
         !dep.includes('prettier')
       ).slice(0, 8);
     }
-    
+
     // Add languages from GitHub API
     const topLanguages = Object.keys(languages).slice(0, 3);
     techStack = [...new Set([...topLanguages, ...techStack])];
@@ -116,7 +129,7 @@ export const fetchRepoDetails = async (url) => {
       'asynchronous', 'concurrent', 'distributed', 'microservice', 'serverless',
       'caching', 'authentication', 'security', 'encryption', 'api design'
     ];
-    
+
     const insights = readme.split(/[.!?]/)
       .filter(sentence => {
         const lower = sentence.toLowerCase();
@@ -128,7 +141,7 @@ export const fetchRepoDetails = async (url) => {
     // === EXTRACT USE CASES ===
     const useCaseSection = readme.match(/##\s*(?:Use Cases|Usage|Getting Started|Why)([\s\S]*?)(?=##|$)/i);
     let useCases = [];
-    
+
     if (useCaseSection) {
       useCases = useCaseSection[1]
         .split('\n')
